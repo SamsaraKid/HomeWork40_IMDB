@@ -39,21 +39,25 @@ print('Парсим информацию о фильме...')
 sugres[num - 1].find_element(By.TAG_NAME, 'a').click()
 
 title = driver.find_element(By.TAG_NAME, 'h1').text
-ortitle = driver.find_element(By.XPATH, '/html/body/div[2]/main/div/section[1]/section/div[3]/section/section/div[2]/div[1]/div').text
-info = driver.find_elements(By.XPATH, '/html/body/div[2]/main/div/section[1]/section/div[3]/section/section/div[2]/div[1]/ul/li')
+origtitle = driver.find_element(By.XPATH,
+        '/html/body/div[2]/main/div/section[1]/section/div[3]/section/section/div[2]/div[1]/div').text
+info = driver.find_elements(By.XPATH,
+        '/html/body/div[2]/main/div/section[1]/section/div[3]/section/section/div[2]/div[1]/ul/li')
 info = list(map(lambda x: x.text, info))
 if len(info) > 3:
     info = info[1] + ' ' + info[0]
 else:
     info = info[0]
-rating = driver.find_element(By.XPATH, '/html/body/div[2]/main/div/section[1]/section/div[3]/section/section/div[2]/div[2]/div/div[1]/a/span/div/div[2]/div[1]/span[1]').text
+rating = driver.find_element(By.XPATH,
+        '/html/body/div[2]/main/div/section[1]/section/div[3]/section/section/div[2]/div[2]/div/div[1]/'
+        'a/span/div/div[2]/div[1]/span[1]').text
 
 cast = driver.find_element(By.CLASS_NAME, 'title-cast__grid').find_elements(By.TAG_NAME, 'a')
 names = list(map(lambda x: x.text, filter(lambda x: x.get_attribute('data-testid') == 'title-cast-item__actor', cast)))
 roles = list(map(lambda x: x.text, filter(lambda x: x.get_attribute('data-testid') == 'cast-item-characters-link', cast)))
 actors = zip(names, roles)
 
-print(f'{title} ({info})\n{ortitle}\nРейтинг IMDB: {rating}/10')
+print(f'{title} ({info})\n{origtitle}\nРейтинг IMDB: {rating}/10')
 print('В ролях:')
 print('Актёр'.ljust(39), 'Роль')
 for a in actors:
