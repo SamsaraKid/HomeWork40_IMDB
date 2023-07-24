@@ -51,8 +51,17 @@ else:
 rating = driver.find_element(By.XPATH,
         '/html/body/div[2]/main/div/section[1]/section/div[3]/section/section/div[2]/div[2]/div/div[1]/'
         'a/span/div/div[2]/div[1]/span[1]').text
-# trivia = driver.find_element(By.XPATH,
-#          '/html/body/div[2]/main/div/section[1]/div/section/div/div[1]/section[7]/div[2]/ul/li/div/div/div/div/div').text
+
+trivia = ''
+tags = driver.find_elements(By.TAG_NAME, 'li')
+for t in tags:
+    try:
+        a = t.find_element(By.TAG_NAME, 'a')
+        if a.text == 'Trivia':
+            trivia = t.find_element(By.CLASS_NAME, 'ipc-metadata-list-item__content-container').text
+            break
+    except:
+        pass
 
 cast = driver.find_element(By.CLASS_NAME, 'title-cast__grid').find_elements(By.TAG_NAME, 'a')
 names = list(map(lambda x: x.text, filter(lambda x: x.get_attribute('data-testid') == 'title-cast-item__actor', cast)))
@@ -66,6 +75,6 @@ print('Актёр'.ljust(39), 'Роль')
 for a in actors:
     print(a[0].ljust(39), a[1])
 print('\nСлучайный факт:')
-# print(trivia)
+print(trivia)
 
 driver.close()
